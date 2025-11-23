@@ -1,3 +1,16 @@
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        // User ist eingeloggt → alles ok
+        document.getElementById("user-email").textContent = user.email;
+    } else {
+        // Kleine Verzögerung, damit Firebase Zeit hat, Session zu lesen
+        setTimeout(() => {
+            if (!auth.currentUser) {
+                window.location.href = "login.html";
+            }
+        }, 150);
+    }
+});
 <!DOCTYPE html>
 <html lang="de">
 <head>
