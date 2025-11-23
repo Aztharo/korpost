@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Korpost – Login</title>
+
+    <script type="module">
+        // Firebase laden
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword,
+            signOut,
+            onAuthStateChanged
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        // ⬇️ Hier deine eigenen Firebase-Daten einfügen
+        const firebaseConfig = {
+            apiKey: "AIzaSyBQLN3TI5pdzCnJ38YOAVBI-MG23ftdOeA",
+            authDomain: "korpost-40bad.firebaseapp.com",
+            projectId: "korpost-40bad",
+            storageBucket: "korpost-40bad.firebasestorage.app",
+            messagingSenderId: "571469681924",
+            appId: "1:571469681924:web:7a61fad0455ec94836ec51"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Registrieren
+        async function registerUser() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            try {
+                await createUserWithEmailAndPassword(auth, email, password);
+                alert("Konto erfolgreich erstellt!");
+            } catch (error) {
+                alert(error.message);
+            }
+        }
+
+        // Login
+        async function loginUser() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                window.location.href = "dashboard.html"; // später anpassen
+            } catch (error) {
+                alert(error.message);
+            }
+        }
+
+        // Beobachten, ob User eingeloggt ist
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log("User eingeloggt:", user.email);
+            } else {
+                console.log("Nicht eingeloggt");
+            }
+        });
+
+        window.registerUser = registerUser;
+        window.loginUser = loginUser;
+    </script>
+</head>
+<body>
+    <h2>Korpost Login</h2>
+
+    <input id="email" type="email" placeholder="E-Mail" /><br><br>
+    <input id="password" type="password" placeholder="Passwort" /><br><br>
+
+    <button onclick="loginUser()">Login</button>
+    <button onclick="registerUser()">Registrieren</button>
+</body>
+</html>
