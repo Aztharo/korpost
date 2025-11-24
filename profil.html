@@ -76,6 +76,7 @@
         document.getElementById("verbindung").value = data.verbindung || "";
         document.getElementById("land").value = data.land || "";
         document.getElementById("stadt").value = data.stadt || "";
+        document.getElementById("plz").value = data.plz || "";
         document.getElementById("adresse").value = data.adresse || "";
         document.getElementById("nickname").value = data.nickname || "";
         document.getElementById("status").value = data.status || "aktiv";
@@ -83,6 +84,7 @@
         document.getElementById("verbindungsname").value = data.name || "";
         document.getElementById("dachverband").value = data.dachverband || "";
         document.getElementById("land_v").value = data.land || "";
+        document.getElementById("plz").value = data.plz || "";
         document.getElementById("stadt_v").value = data.stadt || "";
         document.getElementById("adresse_v").value = data.adresse || "";
     }
@@ -105,6 +107,7 @@
             data.verbindung = document.getElementById("verbindung").value;
             data.land = document.getElementById("land").value;
             data.stadt = document.getElementById("stadt").value;
+            data.plz = document.getElementById("plz").value;
             data.adresse = document.getElementById("adresse").value;
             data.nickname = document.getElementById("nickname").value;
             data.status = document.getElementById("status").value;
@@ -113,6 +116,7 @@
             data.dachverband = document.getElementById("dachverband").value;
             data.land = document.getElementById("land_v").value;
             data.stadt = document.getElementById("stadt_v").value;
+            data.plz = document.getElementById("plz").value;
             data.adresse = document.getElementById("adresse_v").value;
         }
     
@@ -281,10 +285,10 @@
             <h3>Persönliches Profil</h3>
 
             <label>Vorname</label>
-            <input id="vorname">
+            <input id="vorname" required>
 
             <label>Nachname</label>
-            <input id="nachname">
+            <input id="nachname" required>
 
             <label>Nickname</label>
             <input id="nickname">
@@ -298,7 +302,7 @@
             </select>
 
             <label>Verbindung (Name)</label>
-            <input id="verbindung">
+            <input id="verbindung" required>
         </div>
 
         <!-- VERBINDUNG -->
@@ -306,23 +310,26 @@
             <h3>Verbindungsprofil</h3>
 
             <label>Name der Verbindung</label>
-            <input id="verb-name">
+            <input id="verb-name" required>
 
             <label>Dachverband</label>
-            <input id="dachverband">
+            <input id="dachverband" required>
         </div>
 
         <!-- Gemeinsame Felder -->
         <h3>Allgemeine Angaben</h3>
 
         <label>Land</label>
-        <input id="land">
-
+        <input id="land" required>
+        
+        <label>Postleitzahl</label>
+        <input id="plz" required>
+        
         <label>Stadt</label>
-        <input id="stadt">
+        <input id="stadt" required>
 
         <label>Adresse</label>
-        <input id="adresse">
+        <input id="adresse" required>
 
         <button onclick="saveProfile()">💾 Speichern</button>
     </div>
