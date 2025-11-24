@@ -47,71 +47,79 @@
         }
 
         // Beim Laden prüfen, ob User eingeloggt ist
-        onAuthStateChanged(auth, async (user) => {
+        onAuthStateChanged(auth, (user) => {
             if (!user) {
                 window.location.href = "login.html";
             } else {
-                currentUser = user;
-                document.getElementById("user-email").textContent = user.email;
-                loadProfile();
+                loadProfile(user);
             }
         });
 
-        async function loadProfile() {
-            const ref = doc(db, "users", currentUser.uid);
-            const snap = await getDoc(ref);
 
-            if (snap.exists()) {
-                const data = snap.data();
+        async function loadProfile(user) {
+    const ref = doc(db, "profiles", user.uid);
+    const snap = await getDoc(ref);
 
-                document.getElementById("profileType").value = data.profileType || "person";
-                updateFormVisibility(data.profileType);
+    if (!snap.exists()) {
+        console.log("Kein Profil vorhanden – Neuer User.");
+        return;
+    }
 
-                // Person Felder
-                document.getElementById("vorname").value = data.vorname || "";
-                document.getElementById("nachname").value = data.nachname || "";
-                document.getElementById("nickname").value = data.nickname || "";
-                document.getElementById("aktivstatus").value = data.aktivstatus || "";
-                document.getElementById("verbindung").value = data.verbindung || "";
+    const data = snap.data();
 
-                // Verbindung Felder
-                document.getElementById("verb-name").value = data.verbName || "";
-                document.getElementById("dachverband").value = data.dachverband || "";
+    // Profiltyp setzen
+    document.getElementById("profileType").value = data.type;
 
-                // Gemeinsame Felder
-                document.getElementById("land").value = data.land || "";
-                document.getElementById("stadt").value = data.stadt || "";
-                document.getElementById("adresse").value = data.adresse || "";
-            }
-        }
+    if (data.type === "individual") {
+        document.getElementById("firstname").value = data.firstname || "";
+        document.getElementById("lastname").value = data.lastname || "";
+        document.getElementById("verbindung").value = data.verbindung || "";
+        document.getElementById("land").value = data.land || "";
+        document.getElementById("stadt").value = data.stadt || "";
+        document.getElementById("adresse").value = data.adresse || "";
+        document.getElementById("nickname").value = data.nickname || "";
+        document.getElementById("status").value = data.status || "aktiv";
+    } else {
+        document.getElementById("verbindungsname").value = data.name || "";
+        document.getElementById("dachverband").value = data.dachverband || "";
+        document.getElementById("land_v").value = data.land || "";
+        document.getElementById("stadt_v").value = data.stadt || "";
+        document.getElementById("adresse_v").value = data.adresse || "";
+    }
 
+    console.log("Profil geladen:", data);
+}
+        
         async function saveProfile() {
-            const type = document.getElementById("profileType").value;
+    const user = auth.currentUser;
+    if (!user) return;
 
-            const ref = doc(db, "users", currentUser.uid);
+    const type = document.getElementById("profileType").value;
+    const ref = doc(db, "profiles", user.uid);
 
-            const data = {
-                profileType: type,
-                land: document.getElementById("land").value,
-                stadt: document.getElementById("stadt").value,
-                adresse: document.getElementById("adresse").value,
-            };
+    let data = { type };
 
-            if (type === "person") {
-                data.vorname = document.getElementById("vorname").value;
-                data.nachname = document.getElementById("nachname").value;
-                data.nickname = document.getElementById("nickname").value;
-                data.aktivstatus = document.getElementById("aktivstatus").value;
-                data.verbindung = document.getElementById("verbindung").value;
-            } else {
-                data.verbName = document.getElementById("verb-name").value;
-                data.dachverband = document.getElementById("dachverband").value;
-            }
-
-            await setDoc(ref, data, { merge: true });
-
-            alert("Profil gespeichert!");
+        if (type === "individual") {
+            data.firstname = document.getElementById("firstname").value;
+            data.lastname = document.getElementById("lastname").value;
+            data.verbindung = document.getElementById("verbindung").value;
+            data.land = document.getElementById("land").value;
+            data.stadt = document.getElementById("stadt").value;
+            data.adresse = document.getElementById("adresse").value;
+            data.nickname = document.getElementById("nickname").value;
+            data.status = document.getElementById("status").value;
+        } else {
+            data.name = document.getElementById("verbindungsname").value;
+            data.dachverband = document.getElementById("dachverband").value;
+            data.land = document.getElementById("land_v").value;
+            data.stadt = document.getElementById("stadt_v").value;
+            data.adresse = document.getElementById("adresse_v").value;
         }
+    
+        await setDoc(ref, data, { merge: true });
+
+        alert("Profil gespeichert!");
+    }
 
         async function logout() {
             await signOut(auth);
