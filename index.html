@@ -1,101 +1,288 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KorpoPost</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Korpost — Couleurkarten & Verbindungen</title>
+
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      color: #222;
+    :root{
+      --bg:#0f1724;
+      --card:#ffffff;
+      --accent:#c79a2a;
+      --muted:#7b8794;
+      --glass: rgba(255,255,255,0.06);
     }
-    header {
-      background: #0d1b2a;
-      color: white;
-      padding: 20px;
-      text-align: center;
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color:#0b1220;
+      background: linear-gradient(180deg,#f6f7fb 0%, #eef2f7 100%);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
     }
-    .hero {
-      padding: 80px 20px;
-      text-align: center;
-      background: white;
+
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:18px 28px;
+      background:transparent;
+      position:sticky;
+      top:0;
+      z-index:100;
     }
-    .hero h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
+    .logo {
+      display:flex;
+      gap:12px;
+      align-items:center;
+      text-decoration:none;
+      color:#0b1220;
     }
-    .hero p {
-      font-size: 1.2rem;
-      color: #444;
-      max-width: 600px;
-      margin: 0 auto;
-    }
+    .logo img{width:48px;height:48px;border-radius:8px;object-fit:cover;box-shadow:0 6px 18px rgba(11,18,32,0.08)}
+    .brand {font-weight:700;font-size:1.15rem;letter-spacing:0.2px}
+    .nav-actions {display:flex;gap:12px;align-items:center}
     .btn {
-      display: inline-block;
-      padding: 12px 24px;
-      margin-top: 20px;
-      background: #1b263b;
-      color: white;
-      text-decoration: none;
-      border-radius: 6px;
-      transition: 0.2s;
+      background:var(--accent);
+      color:white;
+      padding:10px 14px;
+      border-radius:8px;
+      text-decoration:none;
+      font-weight:600;
+      box-shadow:0 6px 14px rgba(199,154,42,0.12);
     }
-    .btn:hover {
-      background: #415a77;
+    .btn.ghost{
+      background:transparent;
+      color: #0b1220;
+      border: 1px solid rgba(11,18,32,0.06);
+      box-shadow:none;
     }
+
+    /* Hero */
+    .hero{
+      max-width:1200px;
+      margin:36px auto;
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:28px;
+      align-items:center;
+      padding:24px;
+    }
+    .hero-card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.92));
+      padding:48px;
+      border-radius:12px;
+      box-shadow: 0 10px 40px rgba(9,20,40,0.06);
+      overflow:hidden;
+    }
+    h1{font-size:2.2rem;margin:0 0 10px}
+    p.lead{color:var(--muted);margin:0 0 18px;font-size:1rem;max-width:54ch}
+    .cta-row{display:flex;gap:12px;margin-top:18px}
+
+    /* Hero right (preview) */
+    .preview {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transform-origin:center;
+    }
+    .mock {
+      width:360px;
+      border-radius:12px;
+      overflow:hidden;
+      background:linear-gradient(180deg,#ffffff,#f8fafc);
+      box-shadow:0 18px 40px rgba(12,20,40,0.08);
+      padding:18px;
+      transform: translateY(0);
+      animation: float 6s ease-in-out infinite;
+    }
+    .mock img{width:100%;height:220px;object-fit:cover;border-radius:8px;display:block}
+
+    @keyframes float{
+      0%{ transform: translateY(0) }
+      50%{ transform: translateY(-8px) }
+      100%{ transform: translateY(0) }
+    }
+
+    /* Features */
     .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      padding: 40px;
-      max-width: 1100px;
-      margin: auto;
+      max-width:1200px;
+      margin:22px auto;
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:18px;
+      padding:0 24px 40px;
     }
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    .feature {
+      background:#fff;
+      padding:18px;
+      border-radius:10px;
+      box-shadow: 0 8px 24px rgba(9,20,40,0.04);
+      transition: transform .18s ease, box-shadow .18s ease;
     }
-    footer {
-      padding: 20px;
-      text-align: center;
-      background: #0d1b2a;
-      color: white;
-      margin-top: 40px;
+    .feature:hover{ transform: translateY(-6px); box-shadow: 0 16px 40px rgba(9,20,40,0.08) }
+    .feature h4{ margin:6px 0 8px; font-size:1.05rem }
+    .feature p{ margin:0;color:var(--muted) }
+
+    /* Steps */
+    .how {
+      max-width:980px;
+      margin:0 auto 60px;
+      padding:0 18px;
     }
+    .steps {display:flex;gap:12px;flex-wrap:wrap; justify-content:center}
+    .step {
+      background:linear-gradient(180deg,#fff,#fbfdff);
+      padding:18px;border-radius:10px; min-width:220px; text-align:center;
+      box-shadow:0 8px 24px rgba(9,20,40,0.04);
+    }
+    .step h5{ margin:8px 0; font-size:1rem }
+    .step p{ color:var(--muted); margin:6px 0 0; font-size:0.95rem }
+
+    /* Footer */
+    footer { text-align:center;padding:24px;color:var(--muted) }
+
+    /* Responsive */
+    @media (max-width:920px){
+      .hero{ grid-template-columns: 1fr; padding:18px }
+      .features{ grid-template-columns: 1fr; padding:0 18px }
+      .nav-actions { gap:8px }
+    }
+
+    /* small nav (top-right slide) */
+    /* reuse the slide-in menu from your app */
+    .nav-overlay{ display:none }
   </style>
 </head>
 <body>
+
+  <!-- Top header -->
   <header>
-    <h2>KorpoPost</h2>
+    <a class="logo" href="index.html">
+      <!-- placeholder image (system will convert local path to url) -->
+      <img src="/mnt/data/fd5836d7-b9ab-4bac-a4a6-29cda524cea4.png" alt="Korpost Logo">
+      <div>
+        <div class="brand">Korpost</div>
+        <div style="font-size:12px;color:var(--muted)">Couleurkarten · Verbindungen europaweit</div>
+      </div>
+    </a>
+
+    <div class="nav-actions">
+      <a class="btn ghost" href="login.html">Login</a>
+      <a class="btn" href="login.html">Jetzt starten</a>
+    </div>
   </header>
 
-  <section class="hero">
-    <h1>Das digitale Couleur‑Adressbuch</h1>
-    <p>Verbinde Dich mit Verbindungen und Bundesbrüdern in ganz Europa. Sende Couleurkarten, halte Kontakt und verwalte Profile – alles an einem Ort.</p>
-    <a class="btn" href="/login">Zum Login</a>
-  </section>
+  <!-- Hero -->
+  <main>
+    <section class="hero">
+      <div class="hero-card">
+        <h1>Verbinde Verbindungen — eine Couleurkarte nach der anderen</h1>
+        <p class="lead">Korpost bringt Verbindungsstudenten und ganze Verbindungen europaweit zusammen. Sende echte Postkarten, pflege Kontakte und halte couleurstudentische Traditionen lebendig.</p>
 
-  <section class="features">
-    <div class="card">
-      <h3>Profile</h3>
-      <p>Einzelpersonen und Verbindungen können eigene Profile erstellen und verwalten.</p>
-    </div>
-    <div class="card">
-      <h3>Adressverwaltung</h3>
-      <p>Automatisch synchronisierte Daten – immer aktuell, immer korrekt.</p>
-    </div>
-    <div class="card">
-      <h3>Netzwerk</h3>
-      <p>Finde Verbindungen europaweit und bleibe in Kontakt.</p>
-    </div>
-  </section>
+        <div class="cta-row">
+          <a class="btn" href="login.html">Einloggen</a>
+          <a class="btn ghost" href="#how">Wie es funktioniert</a>
+        </div>
+
+        <div style="display:flex;gap:12px;margin-top:22px;align-items:center">
+          <div style="display:flex;flex-direction:column">
+            <small style="color:var(--muted)">Für Verbindungen</small>
+            <strong style="font-size:1rem">Gruppenaustausch · Verbandspost</strong>
+          </div>
+          <div style="display:flex;flex-direction:column;margin-left:18px">
+            <small style="color:var(--muted)">Für Einzelpersonen</small>
+            <strong style="font-size:1rem">Persönlicher Austausch · Sammelleidenschaft</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="preview">
+        <div class="mock" role="img" aria-label="Vorschau Korpost">
+          <img src="/mnt/data/fd5836d7-b9ab-4bac-a4a6-29cda524cea4.png" alt="Korpost Preview">
+          <div style="padding:12px">
+            <strong>Beispiel: </strong> Corps Germania — Grüße aus Bonn
+            <p style="color:var(--muted);margin:8px 0 0;font-size:.95rem">Sende echte Couleurkarten — adressiert, frankiert, persönlich.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" aria-label="Features">
+      <div class="feature">
+        <h4>Profile</h4>
+        <p>Einzelpersonen & Verbindungen legen ein Profil an, inkl. Adresse und Status.</p>
+      </div>
+      <div class="feature">
+        <h4>Matching</h4>
+        <p>Automatische Zuteilung für fairen Austausch — individuell oder Verbindung↔Verbindung.</p>
+      </div>
+      <div class="feature">
+        <h4>Galerie & Statistik</h4>
+        <p>Fotos von erhaltenen Karten, Ranglisten und Karte mit Pins aller Einsendungen.</p>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="how" class="how">
+      <h3 style="text-align:center;margin-bottom:18px">So funktioniert Korpost</h3>
+      <div class="steps">
+        <div class="step">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none"><path d="M3 7h18" stroke="#c79a2a" stroke-width="2" stroke-linecap="round"/></svg>
+          <h5>Profil anlegen</h5>
+          <p>Gib Adresse und Verbindung an — einzelne Profile oder Verbindungs-Accounts.</p>
+        </div>
+        <div class="step">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none"><path d="M12 3v18" stroke="#c79a2a" stroke-width="2" stroke-linecap="round"/></svg>
+          <h5>Postkarte anfordern</h5>
+          <p>Fordere eine Adresse an — das System matched dich zufällig.</p>
+        </div>
+        <div class="step">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none"><path d="M3 12h18" stroke="#c79a2a" stroke-width="2" stroke-linecap="round"/></svg>
+          <h5>Registrieren & sammeln</h5>
+          <p>Empfänger meldet die Karte — Punkte und Geschichte wachsen.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA strip -->
+    <section style="max-width:1100px;margin:30px auto;padding:22px;text-align:center">
+      <div style="background:#fff;padding:18px;border-radius:12px;box-shadow:0 10px 30px rgba(9,20,40,0.05)">
+        <h3 style="margin:0 0 8px">Bereit, Couleurkarten zu verschicken?</h3>
+        <a class="btn" href="login.html">Jetzt anmelden</a>
+      </div>
+    </section>
+
+  </main>
 
   <footer>
-    © 2025 KorpoPost – Alle Rechte vorbehalten
+    <div style="max-width:1000px;margin:auto;padding:12px 18px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div style="display:flex;gap:10px;align-items:center">
+          <div style="width:36px;height:6px;background:#c79a2a;border-radius:4px"></div>
+          <div style="width:36px;height:6px;background:#123254;border-radius:4px"></div>
+          <div style="width:36px;height:6px;background:#7b2d2d;border-radius:4px"></div>
+          <div style="margin-left:12px;color:var(--muted)">Korpost · © 2025</div>
+        </div>
+        <div style="color:var(--muted);font-size:13px">Impressum · Datenschutz · Kontakt</div>
+      </div>
+    </div>
   </footer>
+
+  <!-- optional small script: smooth internal scroll -->
+  <script>
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        e.preventDefault();
+        const id = a.getAttribute('href');
+        const el = document.querySelector(id);
+        if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    });
+  </script>
+
 </body>
 </html>
