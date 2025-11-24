@@ -59,6 +59,9 @@
             await signOut(auth);
             window.location.href = "login.html";
         }
+		async function profile() {
+            window.location.href = "profil.html";
+        }
 
         window.logout = logout;
     </script>
@@ -89,7 +92,7 @@
         <div class="card">
             <h3>Profil</h3>
             <p>Bearbeite deine persönlichen Angaben und Einstellungen.</p>
-            <button disabled>Funktion folgt</button>
+            <button onclick="profile()">Profil bearbeiten</button>
         </div>
     </div>
 </body>
