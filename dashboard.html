@@ -59,9 +59,6 @@
             await signOut(auth);
             window.location.href = "login.html";
         }
-		function profile() {
-   			window.location.href = "profil.html";
-		}
 
         window.logout = logout;
     </script>
@@ -92,7 +89,7 @@
         <div class="card">
             <h3>Profil</h3>
             <p>Bearbeite deine persönlichen Angaben und Einstellungen.</p>
-            <button onclick="profile()">Profil bearbeiten</button>
+           <button onclick="window.location.href='profil.html'"> Profil bearbeiten </button>
         </div>
     </div>
 </body>
